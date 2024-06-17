@@ -10,3 +10,4 @@ def magic_calculation(a, b):
         return c
 
     return sub(a, b)
+
