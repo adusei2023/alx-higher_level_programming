@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """List all states"""
 from sys import argv
-from model_state import Base, State
-from model_city import City
+from relationship_state import Base, State
+from relationship_city import City
 from sqlalchemy import (create_engine)
 from sqlalchemy.orm import sessionmaker
 
@@ -14,9 +14,10 @@ if __name__ == "__main__":
     Base.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
     session = Session()
-    results = session.query(City, State).\
-        filter(City.state_id == State.id).all()
-    for city, state in results:
-        print("{}: ({}) {}".format(state.name, city.id, city.name))
+    new_state = State(name="California")
+    session.add(new_state)
+    session.commit()
+    new_city = City(name="San Francisco", state_id=new_state.id)
+    session.add(new_city)
     session.commit()
     session.close()
